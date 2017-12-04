@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as WebsocketActions from './../actions/websocket';
+import styles from './Client.css';
 
 function mapStateToProps(state) {
     return {isConnected: state.messages.status};
@@ -15,7 +16,13 @@ function mapDispatchToProps(dispatch) {
 
 class ClientLogin extends Component {
 
-    handleLoginClick() {
+    constructor(props) {
+        super(props)
+        this.state = {}
+    }
+
+    handleLoginClick = _ => {
+        console.log('TEST')
         this.props.isConnected
             ? this
                 .props
@@ -26,20 +33,26 @@ class ClientLogin extends Component {
                 .actions
                 .connect();
     }
-
     renderLoginBtn() {
         if (this.props.isConnected) {
-            return <button type="button" onClick={() => this.handleLoginClick}>Disconnect</button>;
+            return <button type="button" onClick={this.handleLoginClick}>Disconnect</button>;
         } else {
-            return <button type="button" onClick={() => this.handleLoginClick}>Connect</button>;
+            return <button type="button" onClick={this.handleLoginClick}>Connect</button>;
         }
     }
 
     render() {
+        let btn = this.renderLoginBtn();
+
+        let testFunc = _ => (console.log("TEST"))
         return (
             <div>
-                {this.renderLoginBtn()
-}
+                <button
+                    className={styles.btn}
+                    onClick={this
+                    .handleLoginClick
+                    .bind(this)}
+                    data-tclass="btn">Login</button>
             </div>
         );
     }

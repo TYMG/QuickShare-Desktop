@@ -1,31 +1,46 @@
-import {RECEIVE_MESSAGE, DISCONNECT, CONNECT} from '../constants/ActionTypes';
+import {
+  combineReducers
+} from 'redux';
+import {
+  UPDATE_MESSAGE,
+  ADD_MESSAGE,
+  ADD_RESPONSE
+} from './../actions/websocket';
 
-import Message from '../utils/message';
-
-const initialState = {
-    messages: [],
-    status: false
-};
-
-export default function messages(state = initialState, action) {
+export default function (initialState) {
+  function messages(currentMessages = initialState.messages, action) {
+    const messages = currentMessages.map(message => Object.assign({}, message));
 
     switch (action.type) {
-        case RECEIVE_MESSAGE:
-            return {
-                ...state,
-                messages: [
-                    ...state.messages,
-                    new Message(action.message)
-                ]
-            }
-
-        case CONNECT:
-            return {messages: [], status: true}
-
-        case DISCONNECT:
-            return {messages: [], status: false}
-
-        default:
-            return state;
+      case ADD_RESPONSE:
+        messages.push(Object.assign({}, action.message));
+        break;
+      case ADD_MESSAGE:
+        messages.push({
+          id: messages.length + 1,
+          text: action.message
+        });
+        break;
+      default:
+        return;
     }
+
+    return messages;
+  }
+
+  function currentMessage(currentMessage = initialState.currentMessage, action) {
+    switch (action.type) {
+      case UPDATE_MESSAGE:
+        return action.message;
+      case ADD_MESSAGE:
+        return '';
+      default:
+        return currentMessage;
+    }
+  }
+
+  return combineReducers({
+    currentMessage,
+    messages
+  });
 }

@@ -1,27 +1,39 @@
-import { POST_MESSAGE, RECEIVE_MESSAGE, CONNECT, DISCONNECT } from '../constants/ActionTypes';
+import {
+  ADD_RESPONSE,
+  ADD_MESSAGE,
+  UPDATE_MESSAGE,
+  CONNECT,
+  DISCONNECT
+} from '../constants/ActionTypes';
 
 export function connect() {
-    return {
-        type: CONNECT
-    }
+  return {
+    type: CONNECT
+  }
 }
 
 export function disconnect() {
-    return {
-        type: DISCONNECT
-    }
+  return {
+    type: DISCONNECT
+  }
 }
 
-export function receiveMessage(message) {
-    return {
-        type: RECEIVE_MESSAGE,
-        message
-    }
+export function updateMessage(message) {
+  return {
+    type: UPDATE_MESSAGE,
+    message
+  };
 }
 
-export function postMessage(text) {
-    return {
-        type: POST_MESSAGE,
-        text
-    }
+export function addMessage() {
+  return {
+    type: ADD_MESSAGE
+  };
+}
+
+export function addResponse(message) {
+  return {
+    type: ADD_RESPONSE,
+    message
+  };
 }
